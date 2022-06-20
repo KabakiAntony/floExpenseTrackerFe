@@ -11,10 +11,10 @@
                 {{ submit_text }}
                 </button>
             </div>
-            <div class="text-center">
+            <!-- <div class="text-center">
                 {{ bottom_text }}
-                <!-- <router-link id="form-bottom" :to="{ name:route_name }" >{{ bottom_link_text }}</router-link> -->
-            </div>
+             <router-link id="form-bottom" :to="{ name:route_name }" >{{ bottom_link_text }}</router-link>
+            </div> -->
         </form>
     </div>
 </template>
@@ -26,7 +26,6 @@ export default {
         header_text: String,
         submit_text: String,
         bottom_text: String,
-        bottom_link_text: String,
         route_name: String,
         action:String,
     },

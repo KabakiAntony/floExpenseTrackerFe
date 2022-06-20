@@ -59,12 +59,12 @@ const routes = [
   //   component: () => import("../views/Forgot.vue"),
   //   props: true,
   // },
-  // {
-  //   path: "/dashboard",
-  //   name: "Dashboard",
-  //   component: () => import("../views/Dashboard.vue"),
-  //   meta: { requiresAuth: true },
-  // },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: () => import("../views/Dashboard.vue")
+    // meta: { requiresAuth: true },
+  },
   // {
   //   path: "/activate",
   //   name: "Activate",
