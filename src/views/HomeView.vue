@@ -18,9 +18,6 @@ export default{
         commonFormProps:{
         header_text:"Login",
         submit_text:"Login",
-        bottom_text:"Forgot Password ?",
-        bottom_link_text:"Send link",
-        route_name:"Forgot"
       },
       type:null,
       message:null,
