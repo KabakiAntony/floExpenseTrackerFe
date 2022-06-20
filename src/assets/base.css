@@ -130,9 +130,7 @@ form{
   padding:25px;
 }
 .dash{
-  padding:5px;
-  /* min-width:250px; */
-  
+  padding:5px; 
 }
 .dash input{
   display: block;
@@ -172,8 +170,9 @@ p{
 }
 select{
   display: block;
-  margin:10px 0;
-  width:50%;
+  margin:10px auto;
+  width:95%;
+  padding:5px;
 }
 button:hover{
   background-color: #00b3ff;
@@ -294,6 +293,8 @@ footer a:hover{
     width:25%;
   }
   select{
-    width:15%;
+    width:25%;
+    padding:5px;
+    margin:10px 2px;
   }
 }

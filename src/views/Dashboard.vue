@@ -24,16 +24,31 @@
     <div class="actionContent" id="floExpense">
         <h3>Your expenses</h3>
         <p>Add expenses made by you</p>
+        <p>Select who you are expensing / paying to foreman or other</p>
         <hr>
-        <form @submit.prevent="addFloExpenses" class="dash">
-        <label>Purpose</label>
-        <input type="text" v-model="flo_purpose" required>
-        <label>Client</label>
-        <input type="text" v-model="flo_client">
-        <label>Amount</label>
-        <input type="number" v-model="flo_amount" required>
-        <button :class="action" class="submit dashboard-submit">{{ flo_expenses_submit }}</button>
-        </form>
+        <label >Expense to</label>
+        <select  v-model="expense_to" required>
+        <option value="foreman">Monies to foreman</option>
+        <option value="other">Monies to other</option>
+        </select>
+        <div v-if="expense_to === 'foreman'">
+            <form @submit.prevent="addFloExpenses" class="dash">
+            <label>Amount</label>
+            <input type="number" v-model="flo_amount" required>
+            <button :class="action" class="submit dashboard-submit">{{ flo_expenses_submit }}</button>
+            </form>
+        </div>
+        <div v-if="expense_to === 'other'">
+            <form @submit.prevent="addFloExpenses" class="dash">
+            <label>Purpose</label>
+            <input type="text" v-model="flo_purpose" required>
+            <label>Client</label>
+            <input type="text" v-model="flo_client">
+            <label>Amount</label>
+            <input type="number" v-model="flo_amount" required>
+            <button :class="action" class="submit dashboard-submit">{{ flo_expenses_submit }}</button>
+            </form>
+        </div>
     </div>
     <div class="actionContent" id="foremanExpense">
         <h3>Foremans expenses</h3>
@@ -70,6 +85,7 @@ export default{
             foreman_purpose:null,
             foreman_client:null,
             foreman_amount:null,
+            expense_to:null,
             flo_expenses_submit:"Add expense",
             foreman_expenses_submit:"Add expense",
             new_batch_submit:"Upload file",
