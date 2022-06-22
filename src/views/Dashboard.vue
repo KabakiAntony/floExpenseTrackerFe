@@ -26,43 +26,93 @@
         <p>Add expenses made by you</p>
         <p>Select who you are expensing / paying to foreman or other</p>
         <hr>
-        <label >Expense to</label>
-        <select  v-model="expense_to" required>
-        <option value="foreman">Monies to foreman</option>
-        <option value="other">Monies to other</option>
-        </select>
-        <div v-if="expense_to === 'foreman'">
-            <form @submit.prevent="addFloExpenses" class="dash">
-            <label>Amount</label>
-            <input type="number" v-model="flo_amount" required>
-            <button :class="action" class="submit dashboard-submit">{{ flo_expenses_submit }}</button>
-            </form>
-        </div>
-        <div v-if="expense_to === 'other'">
-            <form @submit.prevent="addFloExpenses" class="dash">
-            <label>Purpose</label>
-            <input type="text" v-model="flo_purpose" required>
-            <label>Client</label>
-            <input type="text" v-model="flo_client">
-            <label>Amount</label>
-            <input type="number" v-model="flo_amount" required>
-            <button :class="action" class="submit dashboard-submit">{{ flo_expenses_submit }}</button>
-            </form>
+        <div class="holder">
+            <div class="input-expenses">
+                <div class="holder-padding">
+                    <label >Expense to</label>
+                    <select  v-model="expense_to" required class="holder-select">
+                    <option value="foreman">Monies to foreman</option>
+                    <option value="other">Monies to other</option>
+                    </select>
+                </div>
+                <div v-if="expense_to === 'foreman'">
+                    <form @submit.prevent="addFloExpenses" class="holder-padding">
+                    <label>Amount</label>
+                    <input type="number" v-model="flo_amount" required>
+                    <button :class="action" class="submit holder-padding-submit">{{ flo_expenses_submit }}</button>
+                    </form>
+                </div>
+                <div v-if="expense_to === 'other'">
+                    <form @submit.prevent="addFloExpenses" class="holder-padding">
+                    <label>Purpose</label>
+                    <input type="text" v-model="flo_purpose" required>
+                    <label>Client</label>
+                    <input type="text" v-model="flo_client">
+                    <label>Amount</label>
+                    <input type="number" v-model="flo_amount" required>
+                    <button :class="action" class="submit holder-padding-submit">{{ flo_expenses_submit }}</button>
+                    </form>
+                </div>
+            </div>
+            <div class="list-expenses">
+                <label>Todays expenses</label>
+                <div class="list-expenses-li">
+                    <ul>
+                        <li>expense one
+                            <div class="buttons">
+                                <button class="expense-button edit">Edit</button>
+                                <button class="expense-button remove">Remove</button>
+                            </div>
+                        </li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     <div class="actionContent" id="foremanExpense">
         <h3>Foremans expenses</h3>
         <p>Add expenses by the foreman</p>
         <hr>
-        <form @submit.prevent="addForemanExpenses" class="dash">
-        <label>Purpose</label>
-        <input type="text" v-model="foreman_purpose" required>
-        <label>Client</label>
-        <input type="text" v-model="foreman_client">
-        <label>Amount</label>
-        <input type="number" v-model="foreman_amount" required>
-        <button :class="action" class="submit dashboard-submit">{{ foreman_expenses_submit }}</button>
-        </form>
+        <div class="holder">
+            <div class="input-expenses">
+                <form @submit.prevent="addForemanExpenses" class="holder-padding">
+                <label>Purpose</label>
+                <input type="text" v-model="foreman_purpose" required>
+                <label>Client</label>
+                <input type="text" v-model="foreman_client">
+                <label>Amount</label>
+                <input type="number" v-model="foreman_amount" required>
+                <button :class="action" class="submit holder-padding-submit">{{ foreman_expenses_submit }}</button>
+                </form>
+            </div>
+            <div class="list-expenses">
+                 <label>Todays expenses</label>
+                <div class="list-expenses-li">
+                    <ul>
+                        <li>expense one
+                            <div class="buttons">
+                                <button class="expense-button edit">Edit</button>
+                                <button class="expense-button remove">Remove</button>
+                            </div>
+                        </li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                        <li>expense one</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="actionContent" id="generateReports">
         <h3>Generate various reports</h3>
