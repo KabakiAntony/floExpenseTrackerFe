@@ -1,9 +1,11 @@
 :root{
-  --text-color:#24292F;
-  --element-background:#0096D6;
-  --button-hover:#00aeff;
+  --element-background:#7d8181;
+  --button-hover:#353434;
   --unique-background:#DBDBDB;
   --white: #ffffff;
+  --notification-success-bg:#2c9402;
+  --edit-button-bg:#008cff;
+  --notification-error-bg:#ec4135;
 }
 
 * {
@@ -17,7 +19,7 @@ html{
 }
 body{
   font-family: 'Poppins', sans-serif;
-  color: var(--text-color);
+  color: var(--button-hover);
   line-height: 1.6;
   font-size: 16px;
   text-rendering: optimizeLegibility;
@@ -63,7 +65,7 @@ nav{
 }
 .menu a:hover{
   background-color: var(--unique-background);
-  color:var(--text-color);
+  color:var(--button-hover);
 }
 nav{
   max-height: 0;
@@ -127,7 +129,7 @@ main{
   max-width: 300px;
   font-weight: bold;
   overflow: hidden;
-  color:var(--text-color);
+  color:var(--button-hover);
   text-align: justify;
   margin-top: 50px;
 }
@@ -144,7 +146,7 @@ form{
 .form-header{
   text-align:center;
   background-color: var(--element-background);
-  padding: 5px;
+  padding: 10px;
   color:var(--white);
 }
 input{
@@ -182,7 +184,7 @@ select{
 }
 button:hover{
   background-color: var(--button-hover);
-  color: var(--text-color);
+  color: var(--white);
   cursor: pointer;
 }
 footer{
@@ -196,7 +198,7 @@ footer{
   text-align: center;
 }
 footer a{
-  color:var(--text-color)
+  color:var(--button-hover)
 }
 footer a:hover{
   color:rgb(0, 0, 0);
@@ -212,7 +214,6 @@ footer a:hover{
   text-align: left;
   background-color:inherit;
   border: none;
-  /* outline: none; */
   cursor: pointer;
   padding:8px;
   transition: 0.3s;
@@ -222,18 +223,18 @@ footer a:hover{
 }
 .actions button:hover {
   background-color:var(--unique-background);
-  color:var(--text-color);
+  color:var(--button-hover);
 
 }
 .actions button.active {
   background-color:var(--unique-background);
-  color:var(--text-color);
+  color:var(--button-hover);
 } 
 .actionContent {
   display: none;
   padding: 10px;
   border-top: none;
-  background-color:#58beeb54;
+  background-color:#ce828291;
   width:100%;
   margin:0 auto;
   margin-bottom:20px;
@@ -242,7 +243,68 @@ footer a:hover{
   margin-top:20px;
   font-size: 14px;
 }
+.holder{
+  flex-wrap: wrap;
+}
+.input-expenses{
+  padding:5px;
+  flex:25%;
+}
+.list-expenses{
+  padding:5px;
+  flex:75%;
+}
+.holder-padding{
+  padding:5px;
+}
+.holder-padding input{
+  display: block;
+  padding:5px;
+  width:100%;
+}
+.holder-padding-submit{
+  width: 100%;
+}
+.holder-select{
+  width:100%;
+  padding:5px;
+}
+.list-expenses-li{
+  padding:5px;
+  max-height:310px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.list-expenses-li li{
+  background-color: var(--element-background);
+  padding:15px;
+  margin-top: 5px;
+  color:var(--white);
+}
+.buttons{
+  margin-top:10px;
+  width:100%;
+}
+.expense-button{
+  width:50%;
+  padding:3px;
+  color:var(--white);
+  font-weight: bold;
+  border: none;
+}
+.expense-button:hover{
+  color:var(--white);
+  background-color: var(--button-hover);
+}
+.edit{
+  background-color: var(--edit-button-bg);
+}
+.remove{
+  background-color: var(--notification-error-bg) ;
+}
 
+
+/* other viewport widths */
 @media (min-width: 768px) {
  .center-text{
   margin-top:20px;
@@ -263,7 +325,7 @@ footer a:hover{
     padding:15px;
   }
   .menu a:hover{
-      color: var(--text-color);
+      color: var(--button-hover);
 
   }
   .hamb{
@@ -300,5 +362,28 @@ footer a:hover{
     width:25%;
     padding:5px;
     margin:10px 2px;
+  }
+  .holder{
+    display: flex;
+  }
+  .holder-padding{
+    padding:5px;
+  }
+  .holder-padding input{
+    width:100%;
+  }
+  .holder-padding-submit{
+    width: 100%;
+  }
+  .holder-select{
+    width:100%;
+  }
+  .buttons{
+    display: inline;
+    float:right;
+    width:20%;
+  }
+  .expense-button{
+    padding:5px;
   }
 }
