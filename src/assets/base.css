@@ -1,6 +1,7 @@
 :root{
   --text-color:#24292F;
   --element-background:#0096D6;
+  --button-hover:#00aeff;
   --unique-background:#DBDBDB;
   --white: #ffffff;
 }
@@ -12,7 +13,7 @@
   font-weight: normal;
 }
 body{
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
   min-height: 100vh;
   color: var(--text-color);
   line-height: 1.6;
@@ -46,7 +47,7 @@ nav{
   width: 100%;
   height: fit-content;
   position: fixed;
-  background-color: rgb(0, 174, 255);
+  background-color: var(--button-hover);
   overflow: hidden;
 
 }
@@ -139,7 +140,7 @@ form{
 .form-header{
   text-align:center;
   background-color: var(--element-background);
-  padding: 7px;
+  padding: 5px;
   color:var(--white);
 }
 input{
@@ -173,9 +174,10 @@ select{
   margin:10px auto;
   width:95%;
   padding:5px;
+  font-weight: bold;
 }
 button:hover{
-  background-color: #00b3ff;
+  background-color: var(--button-hover);
   color: var(--text-color);
   cursor: pointer;
 }
@@ -193,7 +195,7 @@ footer a{
   color:var(--text-color)
 }
 footer a:hover{
-  color:yellow;
+  color:rgb(0, 0, 0);
 }
 
 .actions{
@@ -206,15 +208,13 @@ footer a:hover{
   text-align: left;
   background-color:inherit;
   border: none;
-  outline: none;
+  /* outline: none; */
   cursor: pointer;
-  padding:5px;
+  padding:8px;
   transition: 0.3s;
-  font-size: 12px;
   color:var(--white);
   font-weight: bold;
   width:50%;
-  border-bottom:1px solid rgb(0, 0, 0);
 }
 .actions button:hover {
   background-color:var(--unique-background);
@@ -227,7 +227,7 @@ footer a:hover{
 } 
 .actionContent {
   display: none;
-  padding: 6px 12px;
+  padding: 10px;
   border-top: none;
   background-color:#58beeb54;
   width:100%;
