@@ -12,8 +12,8 @@
   padding:0;
   font-weight: normal;
 }
-body,html{
-  height: 100%;
+html{
+  height: -webkit-fill-available;
 }
 body{
   font-family: 'Poppins', sans-serif;
@@ -23,6 +23,8 @@ body{
   text-rendering: optimizeLegibility;
   padding-bottom:50px;
   position: relative;
+  min-height:100vh;
+  min-height: -webkit-fill-available;
 }
 .center-text{
   text-align: center;
