@@ -1,10 +1,10 @@
 :root{
-  --element-background:#7d8181;
+  --element-background:#01AAEE;
   --button-hover:#353434;
   --unique-background:#DBDBDB;
   --white: #ffffff;
   --notification-success-bg:#2c9402;
-  --edit-button-bg:#008cff;
+  --edit-button-bg:#2C974B;
   --notification-error-bg:#ec4135;
 }
 
@@ -51,9 +51,10 @@ header{
 }
 nav{
   width: 100%;
-  height: fit-content;
+  height: 100%;
   position: fixed;
   background-color: var(--button-hover);
+  background-color:#a7ddf3;
   overflow: hidden;
 
 }
@@ -64,8 +65,8 @@ nav{
   font-weight: bold;
 }
 .menu a:hover{
-  background-color: var(--unique-background);
-  color:var(--button-hover);
+  background-color:var(--button-hover);
+  color:var(--white);
 }
 nav{
   max-height: 0;
@@ -123,7 +124,7 @@ main{
 }
 #form-container{
   margin: 0 auto;
-  background-color:var(--unique-background);
+  background-color:#a7ddf3;
   min-width: 250px;
   width:85%;
   max-width: 300px;
@@ -222,19 +223,19 @@ footer a:hover{
   width:50%;
 }
 .actions button:hover {
-  background-color:var(--unique-background);
-  color:var(--button-hover);
+  background-color:var(--button-hover);
+  color:var(--white);
 
 }
 .actions button.active {
-  background-color:var(--unique-background);
-  color:var(--button-hover);
+  background-color:var(--button-hover);
+  color:var(--white);
 } 
 .actionContent {
   display: none;
   padding: 10px;
   border-top: none;
-  background-color:#ce828291;
+  background-color:#a7ddf3;
   width:100%;
   margin:0 auto;
   margin-bottom:20px;
@@ -325,7 +326,7 @@ footer a:hover{
     padding:15px;
   }
   .menu a:hover{
-      color: var(--button-hover);
+      color: var(--white);
 
   }
   .hamb{
