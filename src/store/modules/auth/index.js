@@ -25,11 +25,11 @@ const actions = {
             body: JSON.stringify(userData)
             })
             const response = await res.json()
-            if (data.status === 200){
+            if (response.status === 200){
                 commit('SET_AUTH_TOKEN',response.data.auth_token)
                 commit('SET_IS_LOGGED_IN',true)
             }
-            return data
+            return response
         }
         catch(err){
             let error = `The server is offline or unreachable,
