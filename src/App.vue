@@ -1,4 +1,31 @@
 <script>
+import { mapGetters } from "vuex";
+
+export default {
+  methods:{
+    async logOut(){
+      try{
+          this.$store.commit('SET_IS_LOGGED_IN',false)
+          this.$store.commit('SET_AUTH_TOKEN',null)
+          this.$store.commit('RESET_EXPENSES')
+          this.$router.push({name:"Home"})
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+  },
+  computed:{
+    ...mapGetters({ token:"AuthToken", isLoggedIn:"IsLoggedIn" }),
+    screenName(){
+      if(this.token){
+        const tokenParts = this.token.split('.')
+        const tokenBody = JSON.parse(atob(tokenParts[1]))
+        return tokenBody.screen_name
+      }
+    }
+  },  
+}
 </script>
 
 <template>
@@ -10,9 +37,13 @@
         <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
         <!-- Menu -->
         <nav>
-            <ul class="menu">
-                <li><a href="#">Username</a></li>
-                <li><a href="#">Log Out</a></li>
+            <ul class="menu" v-if="isLoggedIn">
+                <li>
+                <router-link :to="{ name: 'Dashboard'}">Hi {{ screenName }}</router-link>
+                </li>
+                <li>
+                  <a class="logout" @click="logOut">Logout</a>
+                </li>
             </ul>
         </nav>
     </header>

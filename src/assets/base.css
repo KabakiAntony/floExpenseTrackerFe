@@ -1,11 +1,13 @@
 :root{
   --element-background:#01AAEE;
-  --button-hover:#353434;
+  /* --button-hover:#759baa; */
+  --button-hover:#575d5f;
+  --text-color:#353434;
   --unique-background:#DBDBDB;
   --white: #ffffff;
   --notification-success-bg:#2c9402;
   --edit-button-bg:#2C974B;
-  --notification-error-bg:#ec4135;
+  --notification-error-bg:#e71809;
 }
 
 * {
@@ -19,7 +21,7 @@ html{
 }
 body{
   font-family: 'Poppins', sans-serif;
-  color: var(--button-hover);
+  color: var(--text-color);
   line-height: 1.6;
   font-size: 16px;
   text-rendering: optimizeLegibility;
@@ -53,8 +55,8 @@ nav{
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: var(--button-hover);
-  background-color:#a7ddf3;
+  background-color:var(--button-hover);
+  background-color:#575d5f;
   overflow: hidden;
 
 }
@@ -130,7 +132,7 @@ main{
   max-width: 300px;
   font-weight: bold;
   overflow: hidden;
-  color:var(--button-hover);
+  color:var(--text-color);
   text-align: justify;
   margin-top: 50px;
 }
@@ -141,6 +143,13 @@ form{
   padding:5px; 
 }
 .dash input{
+  display: block;
+  padding:5px;
+}
+.reports-dash{
+  padding:10px;
+}
+.reports-dash input{
   display: block;
   padding:5px;
 }
@@ -199,10 +208,11 @@ footer{
   text-align: center;
 }
 footer a{
-  color:var(--button-hover)
+  color:var(--text-color);
 }
 footer a:hover{
-  color:rgb(0, 0, 0);
+  color: var(--white);
+  text-decoration: underline;
 }
 
 .actions{
@@ -271,14 +281,14 @@ footer a:hover{
   padding:5px;
 }
 .list-expenses-li{
-  padding:5px;
+  /* padding:5px; */
   max-height:310px;
   overflow-x: hidden;
   overflow-y: auto;
 }
 .list-expenses-li li{
-  background-color: var(--element-background);
-  padding:15px;
+  background-color: var(--button-hover);
+  padding:5px;
   margin-top: 5px;
   color:var(--white);
 }
@@ -294,23 +304,132 @@ footer a:hover{
   border: none;
 }
 .expense-button:hover{
-  color:var(--white);
-  background-color: var(--button-hover);
+  color:var(--text-color);
+  background-color: var(--unique-background);
 }
 .edit{
-  background-color: var(--edit-button-bg);
+  background-color: var(--element-background);
 }
 .remove{
   background-color: var(--notification-error-bg) ;
 }
-
+.submitting{
+  background-color: var(--button-hover);
+}
+.submitting::after{
+  display: inline-flex;
+  content:'';
+  background-image: url('loader-icon.svg');
+  background-size: 20px 20px;
+  height: 20px;
+  width: 20px;
+}
+/* toast styling ...*/
+.error{
+  background-color: #f0a19c;
+  border: 2px solid #e71809;
+}
+.success {
+  background-color: #d4edda;
+  border: 2px solid #26bd26;
+}
+#showAlert{
+  color:var(--text-color);
+  width:100%;
+  text-align: justify;
+  padding: 5px;
+  font-size: 14px;
+}
+.toast-enter-from{
+  opacity: 0;
+  transform:translateY(-60px)
+}
+.toast-enter-active{
+  transition: all 0.3s ease;
+}
+.toast-leave-to{
+  opacity: 0;
+  transform:translateY(-60px)
+}
+.toast-leave-active{
+  transition: all 0.3s ease;
+}
+.expenses_total{
+  color:var(--text-color);
+  font-weight: bold;
+  float:right;
+  font-size:small;
+}
+/* modal */
+.items-list{
+  margin-top:0.3em;
+  overflow: hidden;
+  background-color:var(--element-background);
+  text-transform: uppercase;
+  display:block;
+}
+.items-list li{
+  width:50%;
+  float: left;
+}
+ .li-label{
+  color:var(--white);
+  text-transform: capitalize;
+}
+.items li{
+  width:50%;
+  float: left;
+  }
+/* close button */
+.round-button {
+  float:right;
+  border-radius: 50%;
+  padding: 0.5em;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--element-background);
+  color: var(--element-background);
+  position: relative;
+}
+.round-button:hover {
+  border: 2px solid var(--unique-background);
+  background-color: var(--button-hover);
+}
+ .round-button::before {
+  content: "";
+  position: absolute;
+  display: block;
+  background-color: var(--element-background);
+  width: 2px;
+  left: 12px;
+  top: 5px;
+  bottom: 5px;
+  transform: rotate(45deg);
+} 
+.round-button::after {
+  content: " ";
+  position: absolute;
+  display: block;
+  background-color: var(--element-background);
+  height: 2px;
+  top:12px;
+  left: 5px;
+  right: 5px;
+  transform: rotate(45deg);
+}
+.changes-notif{
+  margin-top:10px;
+}
 
 /* other viewport widths */
 @media (min-width: 768px) {
+  .expenses_total{
+    margin-right: 50%;
+  }
  .center-text{
   margin-top:20px;
  }
-  nav{
+nav{
       max-height: none;
       top: 0;
       position: relative;
@@ -359,6 +478,9 @@ footer a:hover{
     padding:5px;
     width:25%;
   }
+  .reports-dash input{
+    width:25%;
+  }
   select{
     width:25%;
     padding:5px;
@@ -386,5 +508,13 @@ footer a:hover{
   }
   .expense-button{
     padding:5px;
+  }
+  .list-expenses-li li{
+    padding:15px;
+  }
+  .items-list li{
+    width:33%;}
+  .items li{
+    width:33%;
   }
 }
