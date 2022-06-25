@@ -1,51 +1,22 @@
 const state = {        
-    expenses:[],
-    monies_to_foreman:[],
-    all_foreman_expenses:[]
+    all_expenses:[],
+    todays_expenses:[],
 }
 
 const getters = {
-    Expenses(state){
-        return state.expenses
+    AllExpenses(state){
+      return state.all_expenses
     },
-    ForemanMonies(state){
-      return state.monies_to_foreman
-    },
-    AllForemanExpenses(state){
-      return state.all_foreman_expenses
+    TodaysExpenses(state){
+      return state.todays_expenses
     }
 }
 
 const actions = {
-   async getExpenses ({commit, rootState}, expenses_for){
-        const token = rootState.auth.auth_token
-        try{
-          const url = `${this.$api}expenses/${expenses_for}`
-          const res = await fetch(url,{
-          method:'GET',
-          headers:{
-            'auth_token': token
-          },
-          })
-          const response = await res.json()
-          if (response.status === 200){
-              commit('SET_EXPENSES',response.data)
-          }
-          else if(response.status === 404){
-            commit('RESET_EXPENSES')
-          }
-          return data
-        }
-        catch(err)
-        {
-          return err
-    
-        }
-     },
-     async getForemanMonies ({commit, rootState}){
+     async getTodaysExpenses ({commit, rootState}){
       const token = rootState.auth.auth_token
       try{
-        const url = `${this.$api}expenses`
+        const url = `${this.$api}expenses/todays`
         const res = await fetch(url,{
         method:'GET',
         headers:{
@@ -54,12 +25,11 @@ const actions = {
         })
         const response = await res.json()
         if (response.status === 200){
-            commit('SET_FOREMAN_MONIES',response.data)
+            commit('SET_TODAYS_EXPENSES',response.data)
         }
         else if(response.status === 404){
-          commit('RESET_FOREMAN_MONIES')
+          commit('RESET_TODAYS_EXPENSES')
         }
-        return response
       }
       catch(err)
       {
@@ -67,10 +37,10 @@ const actions = {
   
       }
    },
-   async getAllForemanExpenses ({commit, rootState}){
-    const token = rootState.auth.auth_token
+async getAllExpenses({commit, rootState}){
+  const token = rootState.auth.auth_token
     try{
-      const url = `${this.$api}expenses/foreman`
+      const url = `${this.$api}expenses`
       const res = await fetch(url,{
       method:'GET',
       headers:{
@@ -79,42 +49,32 @@ const actions = {
       })
       const response = await res.json()
       if (response.status === 200){
-          commit('SET_ALL_FOREMAN_EXPENSES',response.data)
+          commit('SET_ALL_EXPENSES',response.data)
       }
       else if(response.status === 404){
-        commit('RESET_ALL_FOREMAN_EXPENSES')
+        commit('RESET_ALL_EXPENSES')
       }
-      return response
     }
     catch(err)
     {
       return err
-
     }
- }
+}
 }
 
 const mutations = {
-    SET_EXPENSES (state,payload){
-        state.expenses = payload;
-     },
-
-    RESET_EXPENSES(state){
-        state.expenses.length = 0;
-     },
-     SET_FOREMAN_MONIES (state,payload){
-      state.monies_to_foreman = payload;
-   },
-
-  RESET_FOREMAN_MONIES(state){
-      state.monies_to_foreman.length = 0;
-   },
-   SET_ALL_FOREMAN_EXPENSES(state,payload){
-     state.all_foreman_expenses = payload;
-   },
-   RESET_ALL_FOREMAN_EXPENSES(state){
-    state.all_foreman_expenses.length = 0;
-   }
+  SET_TODAYS_EXPENSES(state, payload){
+    state.todays_expenses = payload;
+  },
+  RESET_TODAYS_EXPENSES(state){
+    state.todays_expenses.length = 0;
+  },
+  SET_ALL_EXPENSES(state,payload){
+    state.all_expenses = payload;
+  },
+  RESET_ALL_EXPENSES(state){
+    state.all_expenses.length = 0;
+  }
 }
 
 export default{
