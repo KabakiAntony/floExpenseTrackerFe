@@ -7,9 +7,8 @@ export default {
       try{
           this.$store.commit('SET_IS_LOGGED_IN',false)
           this.$store.commit('SET_AUTH_TOKEN',null)
-          this.$store.commit('RESET_EXPENSES')
-          this.$store.commit('RESET_FOREMAN_MONIES')
-          this.$store.commit('RESET_ALL_FOREMAN_EXPENSES')
+          this.$store.commit('RESET_ALL_EXPENSES')
+          this.$store.commit('RESET_TODAYS_EXPENSES')
           this.$router.push({name:"Home"})
       }
       catch(err){
