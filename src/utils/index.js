@@ -22,14 +22,12 @@ export async function openAction(evt, actionName){
     setTimeout(()=>{
           this.type = null
           this.message = null
-        }, 5000)
+        }, 3000)
   }
 
   export function todaysDate(){
-    const date_now = new Date().toLocaleDateString('en-GB', {  
-      day:   'numeric',
-      month: 'numeric',
-      year:  'numeric',
-    }).replace(/\//g, '-');
-    return date_now;
+    const date_now = new Date();
+    const offset = date_now.getTimezoneOffset();
+    const adjusted_date = new Date(date_now.getTime() - (offset*60*1000));
+    return adjusted_date.toISOString().split('T')[0]
   }
