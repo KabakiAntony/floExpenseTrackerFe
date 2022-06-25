@@ -139,7 +139,14 @@
 </main>
 </template>
 <script>
-import { openAction, loadToast, todaysDate } from '../utils';
+import { 
+    openAction, 
+    loadToast, 
+    todaysDate,
+    floExpensesReportByDate,
+    foremanExpensesReportByDate,
+    moniesToForemanReportByDate,
+     } from '../utils';
 import ShowAlert from "@/components/ShowAlert.vue";
 import ChangesModal  from "@/components/ChangesModal.vue"
 
@@ -152,7 +159,7 @@ export default{
     data(){
         return{
             changesModalProps:{
-                expense_id:"",
+                expense_id:0,
                 expense_purpose:"",
                 expense_client:"",
                 expense_amount:0.0,
@@ -165,7 +172,7 @@ export default{
             /* batch file*/
             expense_for:null,
             /* flo to foreman */
-            flo_amount_foreman:null,
+            flo_amount_foreman:0,
             flo_foreman_submit:"Add expense",
             /* flo expense list*/
             expenses_by_flo:[],
@@ -176,19 +183,20 @@ export default{
             /* foreman balances */
             foreman_balances:[],
             /* flo amount other */
-            flo_purpose_other:null,
-            flo_client_other:null,
-            flo_amount_other:null,
+            flo_purpose_other:"",
+            flo_client_other:"",
+            flo_amount_other:0,
             /* foreman expense */
-            foreman_purpose:null,
-            foreman_client:null,
-            foreman_amount:null,
+            foreman_purpose:"",
+            foreman_client:"",
+            foreman_amount:0,
             expense_to:null,
             /* list all expenses */
             all_expenses:[],
             /* todays expenses */
             todays_expenses:[],
             /* reports */
+            dated_expenses:[],
             flo_start_date:null,
             flo_end_date:null,
             flo_expenses_report:"Get report",
@@ -228,6 +236,9 @@ export default{
         openAction,
         loadToast,
         todaysDate,
+        floExpensesReportByDate,
+        foremanExpensesReportByDate,
+        moniesToForemanReportByDate,
         async uploadBatchExpenses(){
             this.action="submitting";
             this.new_batch_submit = "";
@@ -429,6 +440,39 @@ export default{
                 }
             }
         },
+        async get_dated_expenses(start_date, end_date){
+            try{
+                const url = `${this.$api}expenses/${start_date}/${end_date}`
+                const res = await fetch(url,{
+                method:'GET',
+                headers:{
+                'auth_token': this.$store.getters.AuthToken,
+                },
+                })
+                const response = await res.json()
+                if (response.status === 200){
+                    this.dated_expenses = response.data;
+                    this.message = "Report data fetched successfully, please wait for report to render.";
+                    this.type = "success";
+                    this.loadToast(this.message, this.type);
+                }
+                else if(response.status === 404){
+                    this.message = `
+                    No data was found for the given dates
+                     or enter correct dates and try again`;
+                    this.type = "error";
+                    this.loadToast(this.message, this.type);                
+                }
+            }
+            catch(err)
+            {
+                this.message = `
+                There was an error fetching the report.
+                `
+                this.type = "error";
+                this.loadToast(this.message, this.type);
+            }
+        },
         /* edit expenses */
         async edit_flo_expenses(expense){
             document.getElementById("changes-modal").style.display = "block";
@@ -454,9 +498,92 @@ export default{
             this.todays_expenses = this.$store.getters.TodaysExpenses;
         },
         /* report functions */
-        async get_expenses_by_flo_report(){},
-        async get_foreman_expenses_report(){},
-        async get_monies_to_foreman_report(){},
+        async get_expenses_by_flo_report(){
+            this.dated_expenses.length = 0;
+
+            this.action = "submitting";
+            this.flo_expenses_report ="";
+
+            await this.get_dated_expenses(this.flo_start_date, this.flo_end_date);
+
+            const dated_expenses_by_flo = this.dated_expenses.filter((arr)=>{
+                return arr.expense_for === "flo";
+            });
+
+            let columns =  [
+              { header:'PURPOSE', dataKey: 'purpose' },
+              { header:'CLIENT', dataKey: 'expense_client'},
+              { header:'AMOUNT', dataKey: 'amount'},
+              { header:'EXPENSED ON', dataKey: 'expense_date' },
+              ];
+
+            this.floExpensesReportByDate(
+                dated_expenses_by_flo, 
+                columns,
+                this.flo_start_date,
+                this.flo_end_date);
+
+            this.action = "";
+            this.flo_expenses_report ="Get report";
+        },
+        async get_foreman_expenses_report(){
+            this.dated_expenses.length = 0;
+
+            this.action = "submitting";
+            this.foreman_expenses_report ="";
+
+            await this.get_dated_expenses(this.foreman_start_date, this.foreman_end_date);
+
+            const dated_expenses_by_foreman = this.dated_expenses.filter((arr)=>{
+                return arr.expense_for === "foreman";
+            });
+
+            let columns =  [
+              { header:'PURPOSE', dataKey: 'purpose' },
+              { header:'CLIENT', dataKey: 'expense_client'},
+              { header:'AMOUNT', dataKey: 'amount'},
+              { header:'EXPENSED ON', dataKey: 'expense_date' },
+              ];
+
+            this.foremanExpensesReportByDate(
+                dated_expenses_by_foreman, 
+                columns,
+                this.foreman_start_date,
+                this.foreman_end_date);
+
+
+            this.action = "";
+            this.foreman_expenses_report ="Get report";
+        },
+        async get_monies_to_foreman_report(){
+            this.dated_expenses.length = 0;
+
+            this.action = "submitting";
+            this.monies_to_report ="";
+
+            await this.get_dated_expenses(this.monies_to_start_date, this.monies_to_end_date);
+
+            const dated_monies_to_foreman = this.dated_expenses.filter((arr)=>{
+                return (arr.expense_for === "flo" && arr.purpose === "foreman");
+            });
+
+            let columns =  [
+              { header:'PURPOSE', dataKey: 'purpose' },
+              { header:'CLIENT', dataKey: 'expense_client'},
+              { header:'AMOUNT', dataKey: 'amount'},
+              { header:'EXPENSED ON', dataKey: 'expense_date' },
+            ];
+
+            this.moniesToForemanReportByDate(
+                dated_monies_to_foreman, 
+                columns,
+                this.monies_to_start_date,
+                this.monies_to_end_date
+            )
+
+            this.action = "";
+            this.monies_to_report ="Get report";
+        },
     },
     async created(){
         await this.$store.dispatch('getAllExpenses');
