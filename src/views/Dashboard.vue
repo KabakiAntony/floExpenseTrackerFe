@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="list-expenses">
-                <label>Todays expenses</label>
+                <label class="total-label">Total expenses ={{ floTotalExpenses.toLocaleString("en-US", {style:"currency", currency:"KES"}) }}</label>
                 <hr>
                 <div class="list-expenses-li" v-if="expenses_by_flo.length > 0">
                     <ul v-for="expense in expenses_by_flo" :key="expense.id">
@@ -70,7 +70,7 @@
                         </li>
                     </ul>
                 </div>
-                <p class="center-text" v-if="expenses_by_flo.length === 0">
+                <p class="center-text bold-text" v-if="expenses_by_flo.length === 0">
                 You have not added any expenses today</p>
             </div>
         </div>
@@ -92,7 +92,7 @@
                 </form>
             </div>
             <div class="list-expenses">
-                 <label>Available = {{ foremanMoniesBalance.toLocaleString("en-US", {style:"currency", currency:"KES"}) }}</label>
+                 <label class="total-label">Available = {{ foremanMoniesBalance.toLocaleString("en-US", {style:"currency", currency:"KES"}) }}</label>
                  <hr>
                 <div class="list-expenses-li" v-if="expenses_by_foreman.length > 0">
                     <ul  v-for="expense in expenses_by_foreman" :key="expense.id">
@@ -104,7 +104,7 @@
                         </li>
                     </ul>
                 </div>
-                <p class="center-text" v-if="expenses_by_foreman.length === 0">
+                <p class="center-text bold-text" v-if="expenses_by_foreman.length === 0">
                 You have not added any expenses today</p>
             </div>
         </div>
@@ -139,7 +139,7 @@
 </main>
 </template>
 <script>
-import { openAction, loadToast } from '../utils';
+import { openAction, loadToast, todaysDate } from '../utils';
 import ShowAlert from "@/components/ShowAlert.vue";
 import ChangesModal  from "@/components/ChangesModal.vue"
 
@@ -169,6 +169,7 @@ export default{
             flo_foreman_submit:"Add expense",
             /* flo expense list*/
             expenses_by_flo:[],
+            all_expenses_by_flo:[],
             /* foreman expense list */
             expenses_by_foreman:[],
             all_expenses_by_foreman:[],
@@ -183,6 +184,10 @@ export default{
             foreman_client:null,
             foreman_amount:null,
             expense_to:null,
+            /* list all expenses */
+            all_expenses:[],
+            /* todays expenses */
+            todays_expenses:[],
             /* reports */
             flo_start_date:null,
             flo_end_date:null,
@@ -210,11 +215,19 @@ export default{
                 foremanExpense += expense.amount
             });
             return moniesBalance - foremanExpense
+        },
+        floTotalExpenses(){
+            let totalExpenses = 0;
+            this.all_expenses_by_flo.forEach((expense)=>{
+                totalExpenses += expense.amount
+            });
+            return totalExpenses
         }
     },
     methods:{
         openAction,
         loadToast,
+        todaysDate,
         async uploadBatchExpenses(){
             this.action="submitting";
             this.new_batch_submit = "";
@@ -273,9 +286,8 @@ export default{
             if(response.status === 201){
                this.flo_amount_foreman = "";
                this.message = "Expense added successfully";
-                await this.$store.dispatch('getExpenses',"flo")
-                this.expenses_by_flo = this.$store.getters.Expenses
                this.loadToast(this.message, "success");
+               await this.get_flo_expenses();
             } else {
                 this.loadToast(response.error, "error");
               }
@@ -303,15 +315,14 @@ export default{
                     })
             const response = await res.json()
             if(response.status === 201){
-                this.message = "Expense added successfully";
-                await this.$store.dispatch('getExpenses',"flo")
-                this.expenses_by_flo = this.$store.getters.Expenses
+                this.message = "Expense added successfully"
                 this.loadToast(this.message, "success");
                 this.flo_amount_other = "";
                 this.flo_purpose_other = "";
                 this.flo_client_other ="";
+                await this.get_flo_expenses();
             } else {
-                this.loadToast(response.error, "error");
+                this.loadToast(response.error, "error")
               }
             this.action="";
             this.flo_other_submit ="Add expense";
@@ -338,8 +349,6 @@ export default{
             const response = await res.json()
             if(response.status === 201){
                 this.message = "Expense added successfully";
-                await this.$store.dispatch('getExpenses',"foreman")
-                this.expenses_by_foreman = this.$store.getters.Expenses
                 this.loadToast(this.message, "success");
                 this.foreman_amount = "";
                 this.foreman_purpose = "";
@@ -352,16 +361,34 @@ export default{
             this.foreman_expenses_submit ="Add expense";
         },
         async get_flo_expenses(){
-            await this.$store.dispatch('getExpenses',"flo")
-            this.expenses_by_flo = this.$store.getters.Expenses
+            await this.get_todays_expenses();
+            this.expenses_by_flo = this.todays_expenses.filter((arr)=>{
+                return  (arr.expense_for === "flo" && arr.expense_date === todaysDate())
+            })
+
+            await this.$store.dispatch('getAllExpenses')
+            this.all_expenses = this.$store.getters.AllExpenses
+
+            this.all_expenses_by_flo = this.all_expenses.filter((arr)=>{
+                return arr.expense_for === "flo"
+            });
         },
         async get_foreman_expenses(){
-            await this.$store.dispatch('getExpenses',"foreman")
-            this.expenses_by_foreman = this.$store.getters.Expenses
-            await this.$store.dispatch('getForemanMonies')
-            this.foreman_balances = this.$store.getters.ForemanMonies
-            await this.$store.dispatch('getAllForemanExpenses')
-            this.all_expenses_by_foreman = this.$store.getters.AllForemanExpenses
+            await this.get_todays_expenses();
+            this.expenses_by_foreman = this.todays_expenses.filter((arr)=>{
+                return  (arr.expense_for === "foreman" && arr.expense_date == todaysDate())
+            })
+
+            await this.$store.dispatch('getAllExpenses')
+            this.all_expenses = this.$store.getters.AllExpenses
+
+            this.foreman_balances = this.all_expenses.filter((arr)=>{
+                return (arr.expense_for === "flo" && arr.purpose === "foreman")
+            });
+
+            this.all_expenses_by_foreman = this.all_expenses.filter((arr)=>{
+                return arr.expense_for === "foreman"
+            });
         },     
         async remove_flo_expenses(id){
             if(confirm('Are you sure you want to delete this expense ?')){
@@ -375,9 +402,8 @@ export default{
                         })
                 const response = await res.json()
                 if(response.status === 200){
-                    await this.$store.dispatch('getExpenses',"flo")
-                    this.expenses_by_flo = this.$store.getters.Expenses
-                    this.loadToast("Expense removed successfully", "success")
+                    this.loadToast("Expense removed successfully", "success");
+                    await this.get_flo_expenses();
                 } else {
                     this.loadToast(response.error, "error")
                 }
@@ -396,9 +422,7 @@ export default{
                         })
                 const response = await res.json()
                 if(response.status === 200){
-                    await this.$store.dispatch('getExpenses',"foreman")
-                    this.expenses_by_foreman = this.$store.getters.Expenses
-                    this.loadToast("Expense removed successfully", "success")
+                    this.loadToast("Expense removed successfully", "success");
                     await this.get_foreman_expenses();
                 } else {
                     this.loadToast(response.error, "error")
@@ -421,17 +445,22 @@ export default{
              this.changesModalProps.expense_amount = expense.amount;
         },
         async clearExpensesAndUpdate(){
-            // reload lists after edit
-            this.expenses_by_flo.length = 0;
-            await this.$store.dispatch('getExpenses',"flo");
-            this.expenses_by_flo = this.$store.getters.Expenses;
-
+            await this.get_flo_expenses();
             await this.get_foreman_expenses();
+        },
+        async get_todays_expenses(){
+            // get all expenses for the day
+            await this.$store.dispatch('getTodaysExpenses');
+            this.todays_expenses = this.$store.getters.TodaysExpenses;
         },
         /* report functions */
         async get_expenses_by_flo_report(){},
         async get_foreman_expenses_report(){},
         async get_monies_to_foreman_report(){},
+    },
+    async created(){
+        await this.$store.dispatch('getAllExpenses');
+        this.all_expenses = this.$store.getters.AllExpenses;
     },
     mounted(){
         // we don't want the modal showing on load
