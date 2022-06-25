@@ -420,6 +420,9 @@ footer a:hover{
 .changes-notif{
   margin-top:10px;
 }
+.total-label, .bold-text{
+  font-weight: bold;
+}
 
 /* other viewport widths */
 @media (min-width: 768px) {

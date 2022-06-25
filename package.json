@@ -8,6 +8,8 @@
     "test:unit": "vitest --environment jsdom"
   },
   "dependencies": {
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.25",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15",
     "vuex": "^4.0.2",
