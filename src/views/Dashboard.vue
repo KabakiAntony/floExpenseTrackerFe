@@ -374,31 +374,37 @@ export default{
         async get_flo_expenses(){
             await this.get_todays_expenses();
             this.expenses_by_flo = this.todays_expenses.filter((arr)=>{
-                return  (arr.expense_for === "flo" && arr.expense_date === todaysDate())
+                let string_to_compare = arr.expense_for.toLocaleLowerCase();
+                return  ( string_to_compare.trim() === "flo" && arr.expense_date === todaysDate())
             })
 
             await this.$store.dispatch('getAllExpenses')
             this.all_expenses = this.$store.getters.AllExpenses
 
             this.all_expenses_by_flo = this.all_expenses.filter((arr)=>{
-                return arr.expense_for === "flo"
+                let string_to_compare = arr.expense_for.toLocaleLowerCase();
+                return  string_to_compare.trim() === "flo"
             });
         },
         async get_foreman_expenses(){
             await this.get_todays_expenses();
             this.expenses_by_foreman = this.todays_expenses.filter((arr)=>{
-                return  (arr.expense_for === "foreman" && arr.expense_date == todaysDate())
+                let string_to_compare = arr.expense_for.toLocaleLowerCase();
+                return  (string_to_compare.trim() === "foreman" && arr.expense_date == todaysDate())
             })
 
             await this.$store.dispatch('getAllExpenses')
             this.all_expenses = this.$store.getters.AllExpenses
 
             this.foreman_balances = this.all_expenses.filter((arr)=>{
-                return (arr.expense_for === "flo" && arr.purpose === "foreman")
+                let string_to_compare = arr.expense_for.toLocaleLowerCase();
+                let array_purpose_string = arr.purpose.toLocaleLowerCase()
+                return (string_to_compare.trim() === "flo" && array_purpose_string.trim()  === "foreman")
             });
 
             this.all_expenses_by_foreman = this.all_expenses.filter((arr)=>{
-                return arr.expense_for === "foreman"
+                let string_to_compare = arr.expense_for.toLocaleLowerCase(); 
+                return string_to_compare.trim()  === "foreman"
             });
         },     
         async remove_flo_expenses(id){
@@ -507,7 +513,8 @@ export default{
             await this.get_dated_expenses(this.flo_start_date, this.flo_end_date);
 
             const dated_expenses_by_flo = this.dated_expenses.filter((arr)=>{
-                return arr.expense_for === "flo";
+                let string_to_compare = arr.expense_for.toLocaleLowerCase();
+                return string_to_compare.trim() === "flo";
             });
 
             let columns =  [
@@ -535,7 +542,8 @@ export default{
             await this.get_dated_expenses(this.foreman_start_date, this.foreman_end_date);
 
             const dated_expenses_by_foreman = this.dated_expenses.filter((arr)=>{
-                return arr.expense_for === "foreman";
+                let string_to_compare =  arr.expense_for.toLocaleLowerCase(); 
+                return string_to_compare.trim() === "foreman";
             });
 
             let columns =  [
@@ -564,7 +572,9 @@ export default{
             await this.get_dated_expenses(this.monies_to_start_date, this.monies_to_end_date);
 
             const dated_monies_to_foreman = this.dated_expenses.filter((arr)=>{
-                return (arr.expense_for === "flo" && arr.purpose === "foreman");
+                let string_to_compare = arr.expense_for.toLocaleLowerCase();
+                let array_purpose_string = arr.purpose.toLocaleLowerCase()
+                return ( string_to_compare.trim() === "flo" && array_purpose_string.trim()  === "foreman");
             });
 
             let columns =  [
