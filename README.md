@@ -1,6 +1,6 @@
 # floExpenseTrackerFe
 
-[![Build Status](https://app.travis-ci.com/KabakiAntony/floExpenseTrackerFe.svg?branch=main)](https://app.travis-ci.com/KabakiAntony/floExpenseTrackerFe)
+[![Build Status](https://app.travis-ci.com/KabakiAntony/floExpenseTrackerFe.svg?branch=main)](https://app.travis-ci.com/KabakiAntony/floExpenseTrackerFe) 
 
 This is an expense tracker for someone overseeing a building project, It has a supervisor part and a foreman part, the supervisor is the one who handles or oversees finances for the larger project and the foreman oversees finances for the day to day basis on the site, it is has a numbers of functionalities, 
 it has a batch upload for uploading batched expenses for the the supervisor and the foreman. It also has individulized expense addition tabs where one can add singular expenses on a daily basis, it shows the running expenses from the start of the project on each of the tabs that is the supervisor and the foreman expenses. On adding expenses on day to day you get the advantage of edit and remove expenses while this feature is not available on the batch upload. Finally it has a report tab where one can pull reports for the various expenses.
@@ -46,7 +46,7 @@ npm run dev
 Running unit tests
 
 ```
-npm run test:unit
+npm run test
 ```
 
 <details open>
