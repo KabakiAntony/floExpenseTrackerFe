@@ -9,10 +9,11 @@ cache:
 
 script:
 - npm install
-- npm run test:unit
+- npm run test
 
-after_script:
-- npm run coverage
+# after_script:
+# - npm run coverage
+# coverage is invoked in the test script
 
 after_success:
 - npm run build
